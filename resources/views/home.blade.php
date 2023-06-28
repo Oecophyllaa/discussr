@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Laravel</title>
+  <title>Discussr</title>
 
   @vite(['resources/scss/app.scss', 'resources/js/app.js'])
 </head>
@@ -55,6 +55,50 @@
       </div>
     </div>
   </nav>
+
+  <section class="container hero">
+    <div class="row align-items-center h-100">
+      <div class="col-12 col-lg-6">
+        <h1>Explore <br /> Share Ideas</h1>
+        <p class="mb-4">Find answers, seek advice, and contribute to the collective wisdom.</p>
+        <a href="#" class="btn btn-dark me-2 mb-2 mb-lg-0">Sign Up</a>
+        <a href="#" class="btn btn-secondary mb-2 mb-lg-0">Join Discussions</a>
+      </div>
+
+      <div class="col-12 col-lg-6 h-315px order-first order-lg-last mb-3 mb-lg-0">
+        <img class="hero-image float-lg-end" src="{{ asset('assets/images/hero.png') }}" alt="hero-img">
+      </div>
+    </div>
+  </section>
+
+  <section class="container min-h-372px">
+    <div class="row">
+      <div class="col-12 col-lg-4 text-center">
+        <img class="promote-icon mb-2" src="{{ asset('assets/images/chat.png') }}" alt="Discussions">
+        <h2>Discussions</h2>
+        <p class="fs-3">12345</p>
+      </div>
+      <div class="col-12 col-lg-4 text-center">
+        <img class="promote-icon mb-2" src="{{ asset('assets/images/reply.png') }}" alt="Answer">
+        <h2>Answer</h2>
+        <p class="fs-3">12345</p>
+      </div>
+      <div class="col-12 col-lg-4 text-center">
+        <img class="promote-icon mb-2" src="{{ asset('assets/images/users.png') }}" alt="Users">
+        <h2>Users</h2>
+        <p class="fs-3">12345</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray">
+    <div class="container py-80px">
+      <h2 class="text-center mb-5">Help Others</h2>
+      <div class="row">
+        <div class="col-12 col-lg-4 mb-3"></div>
+      </div>
+    </div>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
 </body>
