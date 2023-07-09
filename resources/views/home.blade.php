@@ -14,7 +14,7 @@
   <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
     <div class="container flex justify-content-between">
       <a class="navbar-link" href="{{ route('home') }}">
-        <img class="h-32px" src="{{ asset('assets/images/logo.png') }}" alt="SparkChat Logo">
+        <img class="h-32px" src="{{ asset('assets/images/logo.png') }}" alt="Discussr Logo">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -191,6 +191,37 @@
       <a href="#" class="btn btn-secondary mb-2 mb-lg-0">Join Discussions</a>
     </div>
   </section>
+
+  <footer class="py-80px">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-6 mb-5 mb-lg-0">
+          <img src="{{ asset('assets/images/logo.png') }}" alt="Discussr Logo" class="h-32px mb-4">
+          <p class="text-white">Empowering the Laravel community <br />to connect. share and learn. </p>
+        </div>
+        <div class="col-12 col-lg-6 me-auto">
+          <div class="d-flex flex-column flex-lg-row justify-content-end">
+            <div class="d-flex flex-column me-140px mb-3 mb-lg-0">
+              <p class="fw-bold fs-5 text-white text-nowrap">
+                Contact Us
+              </p>
+              <ul class="list-unstyled">
+                <li class="text-white"><a href="mailto:hi@discussr.dev">hi@discussr.dev</a></li>
+              </ul>
+            </div>
+            <div class="d-flex flex-column">
+              <p class="fw-bold fs-5 text-white">Links</p>
+              <ul class="list-unstyled">
+                <li class="text-white mb-2"><a href="#">Home</a></li>
+                <li class="text-white mb-2"><a href="#">Discussion</a></li>
+                <li class="text-white mb-2"><a href="#">About Us</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
 </body>
