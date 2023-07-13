@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('/login', function () {
 	return view('pages.auth.login');
 })->name('login');
+
+Route::get('/register', function () {
+	return view('pages.auth.register');
+})->name('register');

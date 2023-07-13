@@ -2,15 +2,29 @@
 
 @section('content')
   <section class="bg-gray vh-100">
-    <div class="container h-100 pt-5">
-      <div class="row justify-content-center">
-        <div class="col-12 col-lg-3">
-          <a href="#" class="nav-link mb-5 text-center">
-            <img class="h-64px" src="{{ asset('assets/images/logo_title_dark.png') }}" alt="Discussr Logo" />
+    <div class="container">
+      <div class="row pt-5 justify-content-center">
+        <div class="col-12 col-lg-6 my-auto mb-5 mb-lg-auto me-0">
+          <div class="d-none d-lg-block">
+            <h2>Connect, Share, and Learn with Discussr</h2>
+            <p>
+            <ul>
+              <li>Need help? Seek guidance in the Discussions</li>
+              <li>Seek assistance in the Discussions if you're facing challenges</li>
+              <li>Share your knowledge by answering questions</li>
+            </ul>
+            </p>
+          </div>
+          <div class="d-block d-lg-none fs-4 text-center">
+            Register your account within a minute. No cost involved.
+          </div>
+        </div>
+        <div class="col-12 col-lg-3 h-100">
+          <a href="#" class="nav-link mb-4 text-center">
+            <img src="{{ asset('assets/images/logo_title_dark.png') }}" alt="Logo" class="h-64px">
           </a>
-
           <div class="card mb-5">
-            <form action="#" method="POST">
+            <form action="#">
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" name="email" id="email" placeholder="name@example.com" class="form-control" autocomplete="off" autofocus />
@@ -27,13 +41,17 @@
                   </span>
                 </div>
               </div>
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" name="username" id="username" placeholder="johndoe114" class="form-control" autocomplete="off" />
+              </div>
               <div class="mb-3 d-grid">
-                <button type="submit" class="btn btn-dark rounded-2">Login</button>
+                <button type="submit" class="btn btn-dark rounded-2">Register</button>
               </div>
             </form>
           </div>
           <div class="text-center">
-            Don't have an account? <a href="#" class="text-underline"><u>Sign Up</u></a>
+            Already have an account? <a href="#"><u>Log in</u></a>
           </div>
         </div>
       </div>
