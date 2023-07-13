@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/favicon/favicon.ico') }}" />
 
   <title>Discussr</title>
 
@@ -11,6 +12,7 @@
 </head>
 
 <body>
+  <!-- navbar -->
   <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
     <div class="container flex justify-content-between">
       <a class="navbar-link" href="{{ route('home') }}">
@@ -55,6 +57,7 @@
       </div>
     </div>
   </nav>
+  <!-- endnavbar -->
 
   <section class="container hero">
     <div class="row align-items-center h-100">
