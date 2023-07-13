@@ -34,10 +34,10 @@
 
       <ul class="navbar-nav ms-auto my-2 my-lg-0">
         <li class="nav-item my-auto">
-          <a class="nav-link text-nowrap" href="#">Log In</a>
+          <a class="nav-link text-nowrap" href="{{ route('login') }}">Log In</a>
         </li>
         <li class="nav-item ps-1 pe-0">
-          <a class="btn btn-dark-primary" href="#">Sign Up</a>
+          <a class="btn btn-dark-primary" href="{{ route('register') }}">Sign Up</a>
         </li>
       </ul>
     </div>

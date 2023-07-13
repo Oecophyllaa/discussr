@@ -24,3 +24,7 @@ Route::get('/login', function () {
 Route::get('/register', function () {
 	return view('pages.auth.register');
 })->name('register');
+
+Route::get('/discussions', function () {
+	return view('pages.discussions.index');
+})->name('discussions.index');
