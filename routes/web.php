@@ -28,3 +28,7 @@ Route::get('/register', function () {
 Route::get('/discussions', function () {
 	return view('pages.discussions.index');
 })->name('discussions.index');
+
+Route::get('/discussions/xyz', function () {
+	return view('pages.discussions.show');
+})->name('discussions.show');

@@ -8,7 +8,9 @@
 
   <title>Discussr</title>
 
+  <!-- styles -->
   @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.min.css">
 </head>
 
 <body>
@@ -18,6 +20,7 @@
 
   @include('partials.footer')
 
+  <!-- scripts -->
   @stack('before-script')
   @include('partials.script')
   @stack('after-script')
