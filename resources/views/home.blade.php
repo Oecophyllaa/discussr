@@ -6,8 +6,8 @@
       <div class="col-12 col-lg-6">
         <h1>Explore <br /> Share Ideas</h1>
         <p class="mb-4">Find answers, seek advice, and contribute to the collective wisdom.</p>
-        <a href="#" class="btn btn-dark me-2 mb-2 mb-lg-0">Sign Up</a>
-        <a href="#" class="btn btn-secondary mb-2 mb-lg-0">Join Discussions</a>
+        <a href="{{ route('register') }}" class="btn btn-dark me-2 mb-2 mb-lg-0">Sign Up</a>
+        <a href="{{ route('discussions.index') }}" class="btn btn-secondary mb-2 mb-lg-0">Join Discussions</a>
       </div>
 
       <div class="col-12 col-lg-6 h-315px order-first order-lg-last mb-3 mb-lg-0">

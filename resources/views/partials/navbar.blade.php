@@ -12,10 +12,11 @@
       <!-- navbar menus -->
       <ul class="navbar-nav mx-0 mx-lg-3">
         <li class="nav-item d-block d-lg-none d-xl-block">
-          <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
+          <a class="nav-link {{ Route::currentRouteName() === 'home' ? 'active' : '' }}" aria-current="page" href="{{ route('home') }}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ route('discussions.index') }}">Discussions</a>
+          <a class="nav-link {{ Route::currentRouteName() === 'discussions.index' ? 'active' : '' }}"
+            href="{{ route('discussions.index') }}">Discussions</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-nowrap" href="#">About Us</a>
@@ -34,7 +35,7 @@
 
       <ul class="navbar-nav ms-auto my-2 my-lg-0">
         <li class="nav-item my-auto">
-          <a class="nav-link text-nowrap" href="{{ route('login') }}">Log In</a>
+          <a class="nav-link text-nowrap {{ Route::currentRouteName() === 'login' ? 'active' : '' }}" href="{{ route('login') }}">Log In</a>
         </li>
         <li class="nav-item ps-1 pe-0">
           <a class="btn btn-dark-primary" href="{{ route('register') }}">Sign Up</a>

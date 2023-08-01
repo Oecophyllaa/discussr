@@ -76,7 +76,7 @@
                 <!-- reply-likes -->
                 <div class="col-1 d-flex flex-column justify-content-start align-items-center">
                   <a href="#">
-                    <img src="{{ asset('assets/images/liked.png') }}" alt="like icon" class="like-icon mb-1" />
+                    <img src="{{ asset('assets/images/liked_alt.png') }}" alt="like icon" class="like-icon mb-1" />
                   </a>
                   <span class="fs-4 color-gray mb-1">3</span>
                 </div>
@@ -161,6 +161,7 @@
   </section>
 @endsection
 
+<!-- share-cta-alert -->
 @push('after-script')
   <script>
     $(document).ready(function() {
