@@ -36,3 +36,7 @@ Route::get('/discussions/xyz', function () {
 Route::get('/discussions/create', function () {
 	return view('pages.discussions.form');
 })->name('discussions.create');
+
+Route::get('/replies/1', function () {
+	return view('pages.replies.form');
+})->name('replies.edit');
