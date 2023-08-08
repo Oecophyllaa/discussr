@@ -40,3 +40,7 @@ Route::get('/discussions/create', function () {
 Route::get('/replies/1', function () {
 	return view('pages.replies.form');
 })->name('replies.edit');
+
+Route::get('/users/oecophylla', function () {
+	return view('pages.users.show');
+})->name('users.show');
