@@ -17,9 +17,11 @@ Route::get('/', function () {
 	return view('home');
 })->name('home');
 
-Route::get('/login', function () {
-	return view('pages.auth.login');
-})->name('login');
+Route::namespace('App\Http\Controllers\Auth')->group(function () {
+	Route::get('/login', 'LoginController@index')->name('login');
+	Route::post('/login', 'LoginController@login')->name('login.auth');
+	Route::post('/logout', 'LoginController@logout')->name('logout');
+});
 
 Route::get('/register', function () {
 	return view('pages.auth.register');

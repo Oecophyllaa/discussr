@@ -10,21 +10,32 @@
           </a>
 
           <div class="card mb-5">
-            <form action="#" method="POST">
+            <form action="{{ route('login.auth') }}" method="POST">
+              @csrf
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" name="email" id="email" placeholder="name@example.com" class="form-control" autocomplete="off" autofocus />
+                <input type="email" name="email" id="email" value="{{ old('email') }}" placeholder="name@example.com"
+                  class="form-control @error('email') is-invalid @enderror @error('credentials') is-invalid @enderror" autocomplete="off" autofocus />
+                @error('email')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+                @error('credentials')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
               </div>
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
                 <div class="input-group">
                   <input type="password" name="password" id="password" placeholder="********"
-                    class="form-control border-end-0 pe-0 rounded-0 rounded-start-0" />
-                  <span class="input-group-text bg-white border-start-0 pe-auto">
+                    class="form-control border-end-0 pe-0 rounded-0 rounded-start-0 @error('password') is-invalid @enderror" />
+                  <span class="input-group-text bg-white border-start-0 pe-auto @error('password') border-danger rounded-end @enderror">
                     <a href="javascript:;" id="password-toggle">
                       <img src="{{ asset('assets/images/eye-slash.png') }}" alt="Password Toggle" id="password-toggle-img" />
                     </a>
                   </span>
+                  @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
                 </div>
               </div>
               <div class="mb-3 d-grid">
