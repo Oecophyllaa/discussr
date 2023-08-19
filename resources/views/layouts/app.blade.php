@@ -8,7 +8,7 @@
 
   <title>Discussr</title>
 
-  <!-- styles -->
+  <!-- ./Styles -->
   @vite(['resources/scss/app.scss', 'resources/js/app.js'])
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.16/dist/sweetalert2.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css">
@@ -21,10 +21,22 @@
 
   @include('partials.footer')
 
-  <!-- scripts -->
+  <!-- ./Scripts -->
   @stack('before-script')
   @include('partials.script')
   @stack('after-script')
+
+  <!-- ./Sweetalert-Notif-Success -->
+  @if (Session::has('notif.success'))
+    <script>
+      Swal.fire({
+        icon: 'success',
+        text: '{{ Session::get('notif.success') }}',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    </script>
+  @endif
 </body>
 
 </html>

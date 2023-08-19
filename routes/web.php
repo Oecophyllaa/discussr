@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiscussionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::middleware('auth')->group(function () {
+	Route::namespace('App\Http\Controllers')->group(function () {
+		Route::resource('discussions', DiscussionController::class)
+			->only(['create', 'store', 'edit', 'update', 'destroy']);
+	});
+});
 
 Route::get('/', function () {
 	return view('home');
@@ -34,10 +42,6 @@ Route::get('/discussions', function () {
 Route::get('/discussions/xyz', function () {
 	return view('pages.discussions.show');
 })->name('discussions.show');
-
-Route::get('/discussions/create', function () {
-	return view('pages.discussions.form');
-})->name('discussions.create');
 
 Route::get('/replies/1', function () {
 	return view('pages.replies.form');
