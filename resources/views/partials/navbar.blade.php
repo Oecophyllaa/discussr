@@ -1,4 +1,4 @@
-<!-- Navbar -->
+<!-- ./Navbar -->
 <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
   <div class="container flex justify-content-between">
     <a class="navbar-link" href="{{ route('home') }}">
@@ -24,12 +24,13 @@
       </ul>
 
       <!-- ./Search-Form -->
-      <form class="d-flex w-100 me-4 my-2 my-lg-0" role="search" action="#" method="GET">
+      <form class="d-flex w-100 me-4 my-2 my-lg-0" role="search" action="{{ route('discussions.index') }}" method="GET">
         <div class="input-group">
           <span class="input-group-text bg-white border-end-0">
             <img src="{{ asset('assets/images/magnifier.png') }}" alt="">
           </span>
-          <input class="form-control border-start-0 ps-0" type="search" name="" value="" placeholder="Search" aria-label="Search">
+          <input class="form-control border-start-0 ps-0" type="search" name="search" value="{{ $search ?? '' }}" placeholder="Search"
+            aria-label="Search">
         </div>
       </form>
 

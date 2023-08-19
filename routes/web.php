@@ -21,6 +21,10 @@ Route::middleware('auth')->group(function () {
 	});
 });
 
+Route::namespace('App\Http\Controllers')->group(function () {
+	Route::resource('discussions', DiscussionController::class)->only(['index', 'show']);
+});
+
 Route::get('/', function () {
 	return view('home');
 })->name('home');
@@ -33,11 +37,6 @@ Route::namespace('App\Http\Controllers\Auth')->group(function () {
 	Route::get('/register', 'RegisterController@index')->name('register');
 	Route::post('/register', 'RegisterController@register')->name('register.regist');
 });
-
-
-Route::get('/discussions', function () {
-	return view('pages.discussions.index');
-})->name('discussions.index');
 
 Route::get('/discussions/xyz', function () {
 	return view('pages.discussions.show');
