@@ -3,14 +3,14 @@
 @section('content')
   <section class="bg-gray pt-4 pb-5">
     <div class="container">
-      <!-- breadcrumb -->
+      <!-- ./Breadcrumbs -->
       <div class="mb-5">
         <div class="d-flex align-items-center">
           <div class="d-flex">
             <div class="fs-2 fw-bold color-gray me-2 mb-0">Discussions</div>
             <div class="fs-2 fw-bold color-gray me-2 mb-0">&gt;</div>
           </div>
-          <h2 class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing?</h2>
+          <h2 class="mb-0">{{ $discussion->title }}</h2>
         </div>
       </div>
 
@@ -18,24 +18,22 @@
         <div class="col-12 col-lg-8 mb-5 mb-lg-0">
           <div class="card card-discussions mb-5">
             <div class="row">
-              <!-- discussion-likes -->
+              <!-- ./Discussion-Likes -->
               <div class="col-1 d-flex flex-column justify-content-start align-items-center">
-                <a href="#">
-                  <img src="{{ asset('assets/images/like.png') }}" alt="like icon" class="like-icon mb-1">
+                <a id="discussion-like" href="javascript:;" data-liked="{{ $discussion->liked() }}">
+                  <img src="{{ $discussion->liked() ? $likedImage : $likeImage }}" id="discussion-like-icon" alt="Like" class="like-icon mb-1">
                 </a>
-                <span class="fs-4 color-gray mb-1">22</span>
+                <span id="discussion-like-count" class="fs-4 color-gray mb-1">{{ $discussion->likeCount }}</span>
               </div>
-              <!-- discussion-details -->
+              <!-- ./Discussion-Details -->
               <div class="col-11">
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid et ad voluptatibus impedit ea vel quae animi ut quos, blanditiis quis
-                  sunt possimus nam sint expedita ex perspiciatis sequi, cum dolorem suscipit aliquam error! Fugiat nostrum voluptates, eos labore hic
-                  architecto autem aut, provident nam impedit molestiae magni veniam? Sint!
+                  {!! $discussion->content !!}
                 </p>
-                <!-- discussion-categories -->
+                <!-- ./Discussion-Categories -->
                 <div class="mb-3">
-                  <a href="#">
-                    <span class="badge rounded-pill text-bg-light">Relationship</span>
+                  <a href="{{ route('discussions.categories.show', $discussion->category->slug) }}">
+                    <span class="badge rounded-pill text-bg-light">{{ $discussion->category->slug }}</span>
                   </a>
                 </div>
                 <div class="row align-items-start justify-content-between">
@@ -45,21 +43,23 @@
                       <a href="javascript:;" id="share-discussion">
                         <small>Share</small>
                       </a>
-                      <input type="text" value="{{ url('going-somewhere') }}" id="current-url" class="d-none" />
+                      <input type="text" value="{{ route('discussions.show', $discussion->slug) }}" id="current-url" class="d-none" />
                     </span>
                   </div>
                   <!-- discussion-user -->
                   <div class="col-5 col-lg-3 d-flex">
                     <a href="#" class="card-discussions-show-avatar-wrapper flex-shrink-0 rounded-circle overflow-hidden me-1">
-                      <img src="{{ asset('assets/images/avatar.png') }}" alt="avatar" class="avatar">
+                      <img
+                        src="{{ filter_var($discussion->user->picture, FILTER_VALIDATE_URL) ? $discussion->user->picture : Storage::url($discussion->user->picture) }}"
+                        alt="{{ $discussion->user->username }}" class="avatar">
                     </a>
                     <div class="fs-12px lh-1">
                       <span class="text-dark">
                         <a href="#" class="fw-bold d-flex align-items-start text-break mb-1">
-                          Oecophylla
+                          {{ $discussion->user->username }}
                         </a>
                       </span>
-                      <span class="color-gray">2 hours ago</span>
+                      <span class="color-gray">{{ $discussion->created_at->diffForHumans() }}</span>
                     </div>
                   </div>
                 </div>
@@ -67,10 +67,10 @@
             </div>
           </div>
 
-          <h3 class="mb-5">2 Replies</h3>
+          <h3 class="mb-5">2 Answer</h3>
 
           <div class="mb-5">
-            <!-- discussion-replies -->
+            <!-- ./Discussion-Answers -->
             <div class="card card-discussions">
               <div class="row">
                 <!-- reply-likes -->
@@ -138,8 +138,7 @@
 
           <div class="fw-bold text-center">
             Please <a href="{{ route('login') }}" class="text-info">log in</a> or <a href="{{ route('register') }}" class="text-info">create an
-              account</a> to participate in this
-            discussion.
+              account</a> to participate in this discussion.
           </div>
         </div>
 
@@ -147,12 +146,11 @@
           <div class="card">
             <h3>All Categories</h3>
             <div>
-              <a href="#">
-                <span class="badge rounded-pill text-bg-light">Relationship</span>
-                <span class="badge rounded-pill text-bg-light">Tech</span>
-                <span class="badge rounded-pill text-bg-light">Lifestyle</span>
-                <span class="badge rounded-pill text-bg-light">Education</span>
-              </a>
+              @foreach ($categories as $category)
+                <a href="{{ route('discussions.categories.show', $category->slug) }}">
+                  <span class="badge rounded-pill text-bg-light">{{ $category->name }}</span>
+                </a>
+              @endforeach
             </div>
           </div>
         </div>
@@ -179,6 +177,32 @@
           timer: 1500
         });
       })
+
+      $('#discussion-like').click(function() {
+        var isLiked = $(this).data('liked');
+        var likeRoute = isLiked ? '{{ route('discussions.unlike', $discussion->slug) }}' :
+          '{{ route('discussions.like', $discussion->slug) }}';
+
+        $.ajax({
+          method: 'POST',
+          url: likeRoute,
+          data: {
+            '_token': '{{ csrf_token() }}'
+          }
+        }).done(function(res) {
+          if (res.status === 'success') {
+            $('#discussion-like-count').text(res.data.likeCount);
+
+            if (isLiked) {
+              $('#discussion-like-icon').attr('src', '{{ $likeImage }}');
+            } else {
+              $('#discussion-like-icon').attr('src', '{{ $likedImage }}');
+            }
+
+            $('#discussion-like').data('liked', !isLiked);
+          }
+        })
+      });
     })
   </script>
 @endpush

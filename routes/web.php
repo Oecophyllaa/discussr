@@ -14,13 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route-Group-Middleware
 Route::middleware('auth')->group(function () {
 	Route::namespace('App\Http\Controllers')->group(function () {
 		Route::resource('discussions', DiscussionController::class)
 			->only(['create', 'store', 'edit', 'update', 'destroy']);
+		Route::post('/discussions/{discussion}/like', 'LikeController@discussionLike')->name('discussions.like');
+		Route::post('/discussions/{discussion}/unlike', 'LikeController@discussionUnlike')->name('discussions.unlike');
 	});
 });
 
+// Route-Group-Guests
 Route::namespace('App\Http\Controllers')->group(function () {
 	Route::resource('discussions', DiscussionController::class)->only(['index', 'show']);
 
@@ -39,10 +43,6 @@ Route::namespace('App\Http\Controllers\Auth')->group(function () {
 	Route::get('/register', 'RegisterController@index')->name('register');
 	Route::post('/register', 'RegisterController@register')->name('register.regist');
 });
-
-Route::get('/discussions/xyz', function () {
-	return view('pages.discussions.show');
-})->name('discussions.show');
 
 Route::get('/replies/1', function () {
 	return view('pages.replies.form');
