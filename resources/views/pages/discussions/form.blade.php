@@ -80,9 +80,8 @@
           ['table', ['table']],
           ['insert', ['link']],
           ['view', ['codeview', 'help']],
-        ]
+        ],
       });
-
       $('span.note-icon-caret').remove();
     });
   </script>

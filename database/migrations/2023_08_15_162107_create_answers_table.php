@@ -15,7 +15,7 @@ return new class extends Migration
 			$table->id();
 			$table->bigInteger('user_id')->unsigned();
 			$table->bigInteger('discussion_id')->unsigned();
-			$table->text('answers');
+			$table->text('answer');
 			$table->timestamps();
 			$table->softDeletes();
 		});

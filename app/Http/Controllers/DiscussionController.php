@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Discussion\StoreRequest;
 use App\Http\Requests\Discussion\UpdateRequest;
+use App\Models\Answer;
 use App\Models\Category;
 use App\Models\Discussion;
 use Illuminate\Http\Request;
@@ -77,6 +78,10 @@ class DiscussionController extends Controller
 			return abort(404);
 		}
 
+		$discussionAnswers = Answer::where('discussion_id', $discussion->id)
+			->orderBy('created_at', 'desc')
+			->paginate(5);
+
 		$likeImage = url('assets/images/like.png');
 		$likedImage = url('assets/images/liked_alt.png');
 
@@ -85,6 +90,7 @@ class DiscussionController extends Controller
 			'categories' => Category::all(),
 			'likeImage' => $likeImage,
 			'likedImage' => $likedImage,
+			'discussionAnswers' => $discussionAnswers,
 		]);
 	}
 
@@ -151,8 +157,27 @@ class DiscussionController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 */
-	public function destroy(string $id)
+	public function destroy(string $slug)
 	{
-		//
+		$discussion = Discussion::with('category')->where('slug', $slug)->first(); // get the discussion by its slug
+
+		if (!$discussion) {
+			return abort(404); // return 404 | Not Found if there's no discussion found
+		}
+
+		$isOwnedByUser = $discussion->user_id == auth()->id(); // is discussionUserId equal to userId
+
+		if (!$isOwnedByUser) {
+			return abort(404); // return 404 | Not Found if the discussion isn't owned by correct user
+		}
+
+		$delete = $discussion->delete();
+
+		if ($delete) {
+			session()->flash('notif.success', 'Discussion deleted successfully!');
+			return redirect()->route('discussions.index');
+		}
+
+		return abort(500);
 	}
 }
