@@ -27,9 +27,9 @@
               </div>
               <!-- ./Discussion-Details -->
               <div class="col-11">
-                <p>
+                <div>
                   {!! $discussion->content !!}
-                </p>
+                </div>
                 <!-- ./Discussion-Categories -->
                 <div class="mb-3">
                   <a href="{{ route('discussions.categories.show', $discussion->category->slug) }}">
@@ -98,17 +98,29 @@
                 <div class="row">
                   <!-- ./Answer-Likes -->
                   <div class="col-1 d-flex flex-column justify-content-start align-items-center">
-                    <a href="#">
-                      <img src="{{ asset('assets/images/liked_alt.png') }}" alt="like icon" class="like-icon mb-1" />
+                    <!-- ./Answer-Like-Icon-Button -->
+                    <a href="javascript:;" data-id="{{ $answer->id }}" data-liked="{{ $answer->liked() }}"
+                      class="answer-like d-flex flex-column justify-content-start align-items-center">
+                      <img src="{{ $answer->liked() ? $likedImage : $likeImage }}" alt="like icon" class="answer-like-icon like-icon mb-1" />
+                      <!-- ./Answer-Like-Counter -->
+                      <span class="answer-like-count fs-4 color-gray mb-1">{{ $answer->likeCount }}</span>
                     </a>
-                    <span class="fs-4 color-gray mb-1">3</span>
                   </div>
                   <div class="col-11">
                     <!-- ./Answer-Details -->
-                    <p>
+                    <div>
                       {!! $answer->answer !!}
-                    </p>
+                    </div>
                     <div class="row align-items-end justify-content-end">
+                      <div class="col">
+                        @if ($answer->user_id === auth()->id())
+                          <span class="color-gray me-2">
+                            <a href="{{ route('answers.edit', $answer->id) }}">
+                              <small>Edit</small>
+                            </a>
+                          </span>
+                        @endif
+                      </div>
                       <!-- ./Answer-User-Info -->
                       <div class="col-5 col-lg-3 d-flex">
                         <a href="#" class="card-discussions-show-avatar-wrapper flex-shrink-0 rounded-circle overflow-hidden me-1">
@@ -239,7 +251,7 @@
 
             $('#discussion-like').data('liked', !isLiked);
           }
-        })
+        });
       });
 
       // Delete Confirmation
@@ -247,6 +259,34 @@
         if (!confirm('Delete this discussion?')) {
           e.preventDefault();
         }
+      });
+
+      // Answer Like
+      $('.answer-like').click(function() {
+        var $this = $(this);
+        var id = $this.data('id');
+        var isLiked = $this.data('liked');
+        var likeRoute = isLiked ? '{{ url('') }}/answer/' + id + '/unlike' : '{{ url('') }}/answer/' + id + '/like';
+
+        $.ajax({
+          method: 'POST',
+          url: likeRoute,
+          data: {
+            '_token': '{{ csrf_token() }}'
+          }
+        }).done(function(res) {
+          if (res.status === 'success') {
+            $this.find('.answer-like-count').text(res.data.likeCount);
+
+            if (isLiked) {
+              $this.find('.answer-like-icon').attr('src', '{{ $likeImage }}');
+            } else {
+              $this.find('.answer-like-icon').attr('src', '{{ $likedImage }}');
+            }
+
+            $this.data('liked', !isLiked);
+          }
+        });
       });
     });
   </script>

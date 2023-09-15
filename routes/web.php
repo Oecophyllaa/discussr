@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\DiscussionController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,10 @@ Route::middleware('auth')->group(function () {
 		Route::post('/discussions/{discussion}/unlike', 'LikeController@discussionUnlike')->name('discussions.unlike');
 
 		Route::post('/discussions/{discussion}/answer', 'AnswerController@store')->name('discussions.answer.store');
+
+		Route::resource('answers', AnswerController::class)->only(['edit', 'update', 'destroy']);
+		Route::post('/answer/{answer}/like', 'LikeController@answerLike')->name('answer.like');
+		Route::post('/answer/{answer}/unlike', 'LikeController@answerUnlike')->name('answer.unlike');
 	});
 });
 
@@ -45,10 +50,6 @@ Route::namespace('App\Http\Controllers\Auth')->group(function () {
 	Route::get('/register', 'RegisterController@index')->name('register');
 	Route::post('/register', 'RegisterController@register')->name('register.regist');
 });
-
-Route::get('/replies/1', function () {
-	return view('pages.replies.form');
-})->name('replies.edit');
 
 Route::get('/users/oecophylla', function () {
 	return view('pages.users.show');

@@ -17,19 +17,20 @@
           <div class="card card-discussions mb-5">
             <div class="row">
               <div class="col-12">
-                <!-- form -->
-                <form action="" method="POST">
-
+                <!-- ./Answer-Form -->
+                <form action="{{ route('answers.update', $answer->id) }}" method="POST">
+                  @csrf
+                  @method('PUT')
                   <div class="mb-3">
-                    <label for="reply" class="form-label">Help with a Solution</label>
-                    <textarea class="form-control" id="reply" name="reply"></textarea>
+                    <label for="answer" class="form-label">Help with a Solution</label>
+                    <textarea class="form-control" id="answer" name="answer">{{ $answer->answer ?? old('answer') }}</textarea>
                   </div>
                   <div>
                     <button class="btn btn-dark me-4" type="submit">Submit</button>
-                    <a href="">Cancel</a>
+                    <a href="{{ route('discussions.show', $answer->discussion->slug) }}">Cancel</a>
                   </div>
                 </form>
-                <!-- endform -->
+                <!-- ./End-Answer-Form -->
               </div>
             </div>
           </div>
@@ -43,7 +44,7 @@
   <!-- summernote-config -->
   <script>
     $(document).ready(function() {
-      $('#reply').summernote({
+      $('#answer').summernote({
         placeholder: 'Your genius answer',
         tabSize: 2,
         height: 320,

@@ -83,7 +83,7 @@ class DiscussionController extends Controller
 			->paginate(5);
 
 		$likeImage = url('assets/images/like.png');
-		$likedImage = url('assets/images/liked_alt.png');
+		$likedImage = url('assets/images/liked.png');
 
 		return response()->view('pages.discussions.show', [
 			'discussion' => $discussion,
