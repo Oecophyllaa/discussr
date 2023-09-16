@@ -31,13 +31,15 @@
             <!-- ./Card-Discussions -->
             <div class="card card-discussions">
               <div class="row">
-                <!-- ./Likes-Replies -->
+                <!-- ./Discussion-Like-Answer-Info -->
                 <div class="col-12 col-lg-2 mb-1 mb-lg-0 d-flex flex-row flex-lg-column align-items-end">
+                  <!-- ./Like-Counter -->
                   <div class="text-nowrap me-2 me-lg-0">
-                    3 Likes
+                    {{ $discussion->likeCount . ' ' . Str::plural('like', $discussion->likeCount) }}
                   </div>
+                  <!-- ./Answer-Counter -->
                   <div class="text-nowrap color-gray">
-                    10 Replies
+                    {{ $discussion->answers->count() . ' ' . Str::plural('answer', $discussion->answers->count()) }}
                   </div>
                 </div>
                 <!-- ./Discussions-Content -->

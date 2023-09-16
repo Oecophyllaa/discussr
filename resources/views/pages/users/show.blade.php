@@ -6,157 +6,126 @@
       <div class="row">
         <div class="col-12 col-lg-4 mb-5 mb-lg-0">
           <div class="d-flex mb-4">
+            <!-- ./User-Profile-Picture -->
             <div class="avatar-wrapper rounded-circle overflow-hidden flex-shrink-0 me-4">
-              <img src="{{ asset('assets/images/avatar.png') }}" alt="avatar" class="avatar">
+              <img src="{{ $picture }}" alt="avatar" class="avatar">
             </div>
+            <!-- ./User-Information -->
             <div>
               <div class="mb-4">
                 <div class="fs-2 fw-bold mb-1 lh-1 text-break">
-                  oecophylla
+                  {{ $user->username }}
                 </div>
                 <div class="color-gray">
-                  Member since 1 year ago
+                  Member since {{ $user->created_at->diffForHumans() }}
                 </div>
               </div>
             </div>
           </div>
           <div>
+            <!-- ./User-Action-Buttons -->
             <input type="text" id="current-url" class="d-none" value="{{ request()->url() }}" />
             <a id="share-profile" class="btn btn-dark me-4" href="javascript:;">Share</a>
+            @auth
+              @if ($user->id === auth()->id())
+                <a href="{{ route('users.edit', $user->username) }}">Edit Profile</a>
+              @endif
+            @endauth
           </div>
         </div>
         <div class="col-12 col-lg-8">
-          <!-- user-discussions -->
+          <!-- ./User-Discussions -->
           <div class="mb-5">
             <h2 class="mb-3">My Discussions</h2>
             <div>
-              <!-- threads-card -->
-              <div class="card card-discussions">
-                <div class="row">
-                  <div class="col-12 col-lg-2 mb-1 mb-lg-0 d-flex flex-row flex-lg-column align-items-end">
-                    <div class="text-nowrap me-2 me-lg-0">
-                      3 Likes
-                    </div>
-                    <div class="text-nowrap color-gray">
-                      10 Replies
-                    </div>
-                  </div>
-                  <div class="col-12 col-lg-10">
-                    <a href="#">
-                      <h3>Lorem ipsum, dolor sit amet consectetur?</h3>
-                    </a>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas tempore laborum excepturi. Sequi deleniti libero quidem suscipit
-                      amet?
-                      ...
-                    </p>
-                    <div class="row">
-                      <div class="col me-1 me-lg-2">
-                        <a href="#">
-                          <span class="badge rounded-pill text-bg-light">Relationship</span>
-                        </a>
+              @forelse ($discussions as $discussion)
+                <!-- ./Discussions-Card -->
+                <div class="card card-discussions">
+                  <div class="row">
+                    <!-- ./Discussion-Like-Answer-Info -->
+                    <div class="col-12 col-lg-2 mb-1 mb-lg-0 d-flex flex-row flex-lg-column align-items-end">
+                      <!-- ./Like-Counter -->
+                      <div class="text-nowrap me-2 me-lg-0">
+                        {{ $discussion->likeCount . ' ' . Str::plural('like', $discussion->likeCount) }}
                       </div>
-                      <div class="col-5 col-lg-4">
-                        <div class="avatar-sm-wrapper d-inline-block">
-                          <a href="#" class="me-1">
-                            <img src="{{ asset('assets/images/avatar-sm.png') }}" alt="small avatar" class="avatar rounded-circle">
+                      <!-- ./Answer-Counter -->
+                      <div class="text-nowrap color-gray">
+                        {{ $discussion->answers->count() . ' ' . Str::plural('answer', $discussion->answers->count()) }}
+                      </div>
+                    </div>
+                    <!-- ./Discussions-Content -->
+                    <div class="col-12 col-lg-10">
+                      <a href="{{ route('discussions.show', $discussion->slug) }}">
+                        <h3>{{ $discussion->title }}</h3>
+                      </a>
+                      <p>{!! $discussion->content_preview !!}</p>
+                      <div class="row">
+                        <div class="col me-1 me-lg-2">
+                          <a href="{{ route('discussions.categories.show', $discussion->category->slug) }}">
+                            <span class="badge rounded-pill text-bg-light">{{ $discussion->category->name }}</span>
                           </a>
                         </div>
-                        <span class="fs-12px">
-                          <a href="#" class="me-1 fw-bold">
-                            Oecophylla
-                          </a>
-                          <span class="color-gray">2 hours ago</span>
-                        </span>
+                        <div class="col-5 col-lg-4">
+                          <div class="avatar-sm-wrapper d-inline-block">
+                            <a href="{{ route('users.show', $discussion->user->username) }}" class="me-1">
+                              <img
+                                src="{{ filter_var($discussion->user->picture, FILTER_VALIDATE_URL) ? $discussion->user->picture : Storage::url($discussion->user->picture) }}"
+                                alt="{{ $discussion->user->username }}" class="avatar rounded-circle">
+                            </a>
+                          </div>
+                          <span class="fs-12px">
+                            <a href="{{ route('users.show', $discussion->user->username) }}" class="me-1 fw-bold">
+                              {{ $discussion->user->username }}
+                            </a>
+                            <span class="color-gray">{{ $discussion->created_at->diffForHumans() }}</span>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              @empty
+                <!-- ./Empty-Discussions-Card -->
+                <div class="card card-discussions">
+                  No Active Discussions Presently.
+                </div>
+              @endforelse
 
-              <!-- threads-card -->
-              <div class="card card-discussions">
-                <div class="row">
-                  <div class="col-12 col-lg-2 mb-1 mb-lg-0 d-flex flex-row flex-lg-column align-items-end">
-                    <div class="text-nowrap me-2 me-lg-0">
-                      3 Likes
-                    </div>
-                    <div class="text-nowrap color-gray">
-                      10 Replies
-                    </div>
-                  </div>
-                  <div class="col-12 col-lg-10">
-                    <a href="#">
-                      <h3>Lorem ipsum, dolor sit amet consectetur?</h3>
-                    </a>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas tempore laborum excepturi. Sequi deleniti libero quidem suscipit
-                      amet?
-                      ...
-                    </p>
-                    <div class="row">
-                      <div class="col me-1 me-lg-2">
-                        <a href="#">
-                          <span class="badge rounded-pill text-bg-light">Relationship</span>
-                        </a>
-                      </div>
-                      <div class="col-5 col-lg-4">
-                        <div class="avatar-sm-wrapper d-inline-block">
-                          <a href="#" class="me-1">
-                            <img src="{{ asset('assets/images/avatar-sm.png') }}" alt="small avatar" class="avatar rounded-circle">
-                          </a>
-                        </div>
-                        <span class="fs-12px">
-                          <a href="#" class="me-1 fw-bold">
-                            Oecophylla
-                          </a>
-                          <span class="color-gray">2 hours ago</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {{ $discussions->appends(['answers' => $answers->currentPage()])->links() }}
             </div>
           </div>
 
-          <!-- user-replies -->
+          <!-- ./User-Answers-List -->
           <div>
             <h2 class="mb-3">My Replies</h2>
             <div>
-              <!-- replies-card -->
-              <div class="card card-discussions">
-                <div class="row align-items-center">
-                  <div class="col-2 col-lg-1 text-center">
-                    12
-                  </div>
-                  <div class="col">
-                    <span>Replied to</span>
-                    <span class="fw-bold text-primary">
-                      <a href="#">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing?
-                      </a>
-                    </span>
+              @forelse ($answers as $answer)
+                <!-- ./Answers-Card -->
+                <div class="card card-discussions">
+                  <div class="row align-items-center">
+                    <!-- ./Answers-Like-Counter -->
+                    <div class="col-2 col-lg-1 text-center">
+                      {{ $answer->likeCount }}
+                    </div>
+                    <!-- ./Answers-Directive-Link -->
+                    <div class="col">
+                      <span>Replied to</span>
+                      <span class="fw-bold text-primary">
+                        <a href="{{ route('discussions.show', $answer->discussion->slug) }}">
+                          {{ $answer->discussion->title }}
+                        </a>
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              @empty
+                <!-- ./Empty-Answers-Card -->
+                <div class="card card-discussions">
+                  Currently no answer yet.
+                </div>
+              @endforelse
 
-              <!-- replies-card -->
-              <div class="card card-discussions">
-                <div class="row align-items-center">
-                  <div class="col-2 col-lg-1 text-center">
-                    12
-                  </div>
-                  <div class="col">
-                    <span>Replied to</span>
-                    <span class="fw-bold text-primary">
-                      <a href="#">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing?
-                      </a>
-                    </span>
-                  </div>
-                </div>
-              </div>
+              {{ $answers->appends(['discussions' => $discussions->currentPage()])->links() }}
             </div>
           </div>
         </div>
@@ -178,7 +147,7 @@
 
         Swal.fire({
           icon: 'success',
-          text: 'Link to this discussion copied successfuly',
+          text: 'Link to this user profile copied successfuly',
           showConfirmButton: false,
           timer: 1500
         });

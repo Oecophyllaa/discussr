@@ -19,7 +19,7 @@
             href="{{ route('discussions.index') }}">Discussions</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-nowrap" href="#">About Us</a>
+          <a class="nav-link text-nowrap" href="{{ route('home') }}#about-us">About Us</a>
         </li>
       </ul>
 
@@ -50,7 +50,7 @@
             <!-- ./Nav-Dropdown -->
             <ul class="dropdown-menu mt-2">
               <li>
-                <a href="#" class="dropdown-item">My Profile</a>
+                <a href="{{ route('users.show', auth()->user()->username) }}" class="dropdown-item">My Profile</a>
               </li>
               <li>
                 <form action="{{ route('logout') }}" method="POST">

@@ -23,7 +23,7 @@ class AnswerController extends Controller
 		$create = Answer::create($validated);
 
 		if ($create) {
-			session()->flash('notif.success', 'Your input has been published!');
+			session()->flash('notif.success', 'Your answer has been published!');
 			return redirect()->route('discussions.show', $slug);
 		}
 
@@ -47,7 +47,7 @@ class AnswerController extends Controller
 			return abort(404);
 		}
 
-		return response()->view('pages.replies.form', [
+		return response()->view('pages.answers.form', [
 			'answer' => $answer,
 		]);
 	}
@@ -86,6 +86,25 @@ class AnswerController extends Controller
 	 */
 	public function destroy(string $id)
 	{
-		//
+		$answer = Answer::find($id);
+
+		if (!$answer) {
+			return abort(404);
+		}
+
+		$isOwnedByUser = $answer->user_id == auth()->id();
+
+		if (!$isOwnedByUser) {
+			return abort(404);
+		}
+
+		$delete = $answer->delete();
+
+		if ($delete) {
+			session()->flash('notif.success', 'Answer deleted successfully!');
+			return redirect()->route('discussions.show', $answer->discussion->slug);
+		}
+
+		return abort(500);
 	}
 }

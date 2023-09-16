@@ -114,11 +114,21 @@
                     <div class="row align-items-end justify-content-end">
                       <div class="col">
                         @if ($answer->user_id === auth()->id())
+                          <!-- ./Answer-Edit-Button -->
                           <span class="color-gray me-2">
                             <a href="{{ route('answers.edit', $answer->id) }}">
                               <small>Edit</small>
                             </a>
                           </span>
+
+                          <!-- ./Answer-Delete-Button -->
+                          <form action="{{ route('answers.destroy', $answer->id) }}" class="d-inline-block lh-1" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete-answer color-gray btn btn-link text-decoration-none p-0 lh-1">
+                              <small>Delete</small>
+                            </button>
+                          </form>
                         @endif
                       </div>
                       <!-- ./Answer-User-Info -->
@@ -254,9 +264,16 @@
         });
       });
 
-      // Delete Confirmation
+      // Discussion Delete Confirmation
       $('#delete-discussion').click(function(e) {
         if (!confirm('Delete this discussion?')) {
+          e.preventDefault();
+        }
+      });
+
+      // Answer Delete Confirmation
+      $('.delete-answer').click(function(e) {
+        if (!confirm('Delete this answer?')) {
           e.preventDefault();
         }
       });

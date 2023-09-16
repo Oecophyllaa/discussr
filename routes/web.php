@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\DiscussionController;
+use App\Http\Controllers\My\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 // Route-Group-Middleware
 Route::middleware('auth')->group(function () {
+	Route::namespace('App\Http\Controllers\My')->group(function () {
+		Route::resource('users', UserController::class)->only(['edit', 'update']);
+	});
+
 	Route::namespace('App\Http\Controllers')->group(function () {
 		Route::resource('discussions', DiscussionController::class)
 			->only(['create', 'store', 'edit', 'update', 'destroy']);
@@ -33,14 +38,12 @@ Route::middleware('auth')->group(function () {
 
 // Route-Group-Guests
 Route::namespace('App\Http\Controllers')->group(function () {
+	Route::get('/', 'HomeController@index')->name('home');
+
 	Route::resource('discussions', DiscussionController::class)->only(['index', 'show']);
 
 	Route::get('/discussions/categories/{category}', 'CategoryController@show')->name('discussions.categories.show');
 });
-
-Route::get('/', function () {
-	return view('home');
-})->name('home');
 
 Route::namespace('App\Http\Controllers\Auth')->group(function () {
 	Route::get('/login', 'LoginController@index')->name('login');
@@ -51,10 +54,6 @@ Route::namespace('App\Http\Controllers\Auth')->group(function () {
 	Route::post('/register', 'RegisterController@register')->name('register.regist');
 });
 
-Route::get('/users/oecophylla', function () {
-	return view('pages.users.show');
-})->name('users.show');
-
-Route::get('/users/oecophylla/edit', function () {
-	return view('pages.users.form');
-})->name('users.edit');
+Route::namespace('App\Http\Controllers\My')->group(function () {
+	Route::resource('users', UserController::class)->only(['show']);
+});
